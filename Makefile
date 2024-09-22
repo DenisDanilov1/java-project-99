@@ -1,19 +1,16 @@
-.DEFAULT_GOAL := build-run
-
-clean:
-	./gradlew clean
-
-build:
-	./gradlew clean build
-
-install:
-	./gradlew clean install
+setup:
+	npm install
+	./gradlew wrapper --gradle-version 8.7
+	./gradlew build
 
 run-dist:
-	./build/install/java-package/bin/java-package
+	./build/install/java-project-99/bin/java-project-99
+
+install:
+	./gradlew installBootDist
 
 run:
-	./gradlew run
+	./gradlew bootRun
 
 test:
 	./gradlew test
@@ -22,14 +19,6 @@ report:
 	./gradlew jacocoTestReport
 
 lint:
-	./gradlew checkstyleMain checkstyleTest
-
-update-deps:
-	./gradlew useLatestVersions
-
-start:
-	./gradlew bootRun --args='--spring.profiles.active=dev'
-
-build-run: build run
+	./gradlew checkstyleMain
 
 .PHONY: build
