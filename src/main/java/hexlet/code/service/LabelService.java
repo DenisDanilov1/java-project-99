@@ -1,52 +1,48 @@
 package hexlet.code.service;
 
-import hexlet.code.dto.LabelCreateDTO;
-import hexlet.code.dto.LabelDTO;
-import hexlet.code.dto.LabelUpdateDTO;
-import hexlet.code.exception.ResourceNotFoundException;
+import hexlet.code.dto.label.LabelCreateDTO;
+import hexlet.code.dto.label.LabelDTO;
+import hexlet.code.dto.label.LabelUpdateDTO;
 import hexlet.code.mapper.LabelMapper;
 import hexlet.code.repository.LabelRepository;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Service
-@RequiredArgsConstructor
 public class LabelService {
 
-    private final LabelRepository labelRepository;
-
-    private final LabelMapper labelMapper;
+    private LabelRepository repository;
+    private LabelMapper labelMapper;
 
     public List<LabelDTO> getAll() {
-        var labels = labelRepository.findAll();
-        return labels.stream()
-                .map(labelMapper::map)
-                .toList();
+        var labels = repository.findAll();
+        return labelMapper.map(labels);
     }
 
-    public LabelDTO show(Long id) {
-        var label = labelRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Label not found"));
+    public LabelDTO getById(Long id) {
+        var label = repository.findById(id)
+                .orElseThrow();
         return labelMapper.map(label);
     }
 
-    public LabelDTO create(LabelCreateDTO dataDTO) {
-        var label = labelMapper.map(dataDTO);
-        labelRepository.save(label);
+    public LabelDTO create(LabelCreateDTO labelData) {
+        var label = labelMapper.map(labelData);
+        repository.save(label);
         return labelMapper.map(label);
     }
 
-    public LabelDTO update(LabelUpdateDTO dataDTO, Long id) {
-        var label = labelRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Label not found"));
-        labelMapper.update(dataDTO, label);
-        labelRepository.save(label);
+    public LabelDTO update(LabelUpdateDTO labelData, Long id) {
+        var label = repository.findById(id)
+                .orElseThrow();
+        labelMapper.update(labelData, label);
+        repository.save(label);
         return labelMapper.map(label);
     }
 
     public void delete(Long id) {
-        labelRepository.deleteById(id);
+        repository.deleteById(id);
     }
 }

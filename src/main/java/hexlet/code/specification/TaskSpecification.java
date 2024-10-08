@@ -1,6 +1,6 @@
 package hexlet.code.specification;
 
-import hexlet.code.dto.TaskParamDTO;
+import hexlet.code.dto.task.TaskParamsDTO;
 import hexlet.code.model.Task;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class TaskSpecification {
 
-    public Specification<Task> build(TaskParamDTO params) {
+    public Specification<Task> build(TaskParamsDTO params) {
         return withAssigneeId(params.getAssigneeId())
                 .and(withTitleCont(params.getTitleCont()))
                 .and(withStatus(params.getStatus()))

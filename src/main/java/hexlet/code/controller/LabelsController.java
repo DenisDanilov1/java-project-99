@@ -1,8 +1,8 @@
 package hexlet.code.controller;
 
-import hexlet.code.dto.LabelCreateDTO;
-import hexlet.code.dto.LabelDTO;
-import hexlet.code.dto.LabelUpdateDTO;
+import hexlet.code.dto.label.LabelCreateDTO;
+import hexlet.code.dto.label.LabelDTO;
+import hexlet.code.dto.label.LabelUpdateDTO;
 import hexlet.code.service.LabelService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,7 @@ public class LabelsController {
 
     @GetMapping(path = "/labels/{id}")
     public LabelDTO show(@PathVariable Long id) {
-        return labelService.show(id);
+        return labelService.getById(id);
     }
 
     @PostMapping(path = "/labels")

@@ -1,24 +1,20 @@
-package hexlet.code.dto;
+package hexlet.code.dto.label;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class TaskStatusDTO {
+public class LabelDTO {
 
     private Long id;
 
+    @Size(min = 1, max = 1000)
     private String name;
-
-    private String slug;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate createdAt;

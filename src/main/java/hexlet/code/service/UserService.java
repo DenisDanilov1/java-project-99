@@ -1,46 +1,43 @@
 package hexlet.code.service;
 
-import hexlet.code.dto.UserCreateDTO;
-import hexlet.code.dto.UserDTO;
-import hexlet.code.dto.UserUpdateDTO;
-import hexlet.code.exception.ResourceNotFoundException;
+import hexlet.code.dto.user.UserCreateDTO;
+import hexlet.code.dto.user.UserDTO;
+import hexlet.code.dto.user.UserUpdateDTO;
 import hexlet.code.mapper.UserMapper;
 import hexlet.code.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class UserService {
 
-    private final UserRepository userRepository;
-    private final UserMapper userMapper;
+    private UserRepository userRepository;
+    private UserMapper userMapper;
 
     public List<UserDTO> getAll() {
         var users = userRepository.findAll();
-        return users.stream()
-                .map(userMapper::map)
-                .toList();
+        return userMapper.map(users);
     }
 
-    public UserDTO show(Long id) {
+    public UserDTO getById(Long id) {
         var user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+                .orElseThrow();
         return userMapper.map(user);
     }
 
-    public UserDTO create(UserCreateDTO dataDTO) {
-        var user = userMapper.map(dataDTO);
+    public UserDTO create(UserCreateDTO userData) {
+        var user = userMapper.map(userData);
         userRepository.save(user);
         return userMapper.map(user);
     }
 
-    public UserDTO update(UserUpdateDTO dataDTO, Long id) {
+    public UserDTO update(UserUpdateDTO userData, Long id) {
         var user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        userMapper.update(dataDTO, user);
+                .orElseThrow();
+        userMapper.update(userData, user);
         userRepository.save(user);
         return userMapper.map(user);
     }

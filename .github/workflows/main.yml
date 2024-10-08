@@ -17,7 +17,7 @@ jobs:
       - name: Build with Gradle
         uses: gradle/gradle-build-action@v3
         with:
-          gradle-version: 8.7
+          gradle-version: 8.10.2
       - run: make lint
       - run: make test
       - name: Code coverage
