@@ -156,4 +156,3 @@ public class UsersControllerTest {
         assertThat(userRepository.existsById(testUser.getId())).isEqualTo(false);
     }
 }
-
