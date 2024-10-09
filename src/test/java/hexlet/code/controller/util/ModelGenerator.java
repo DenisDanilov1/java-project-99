@@ -4,6 +4,7 @@ import hexlet.code.model.Label;
 import hexlet.code.model.Task;
 import hexlet.code.model.TaskStatus;
 import hexlet.code.model.User;
+
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import net.datafaker.Faker;
@@ -15,16 +16,20 @@ import org.springframework.stereotype.Component;
 @Getter
 @Component
 public class ModelGenerator {
-    private Model<Label> labelModel;
-    private Model<Task> taskModel;
+
     private Model<User> userModel;
     private Model<TaskStatus> taskStatusModel;
-    private final Faker faker = new Faker();
+    private Model<Task> taskModel;
+    private Model<Label> labelModel;
 
     @PostConstruct
-    public void init() {
+    private void init() {
+        var faker = new Faker();
+
         userModel = Instancio.of(User.class)
                 .ignore(Select.field(User::getId))
+                .ignore(Select.field(User::getUpdatedAt))
+                .ignore(Select.field(User::getCreatedAt))
                 .supply(Select.field(User::getEmail), () -> faker.internet().emailAddress())
                 .supply(Select.field(User::getFirstName), () -> faker.name().firstName())
                 .supply(Select.field(User::getLastName), () -> faker.name().lastName())
@@ -33,21 +38,26 @@ public class ModelGenerator {
 
         taskStatusModel = Instancio.of(TaskStatus.class)
                 .ignore(Select.field(TaskStatus::getId))
+                .ignore(Select.field(TaskStatus::getCreatedAt))
                 .supply(Select.field(TaskStatus::getName), () -> faker.lorem().word())
-                .supply(Select.field(TaskStatus::getSlug), () -> faker.lorem().characters(3))
+                .supply(Select.field(TaskStatus::getSlug), () -> faker.lorem().characters(3, 200))
                 .toModel();
 
         taskModel = Instancio.of(Task.class)
                 .ignore(Select.field(Task::getId))
+                .ignore(Select.field(Task::getCreatedAt))
+                .ignore(Select.field(Task::getTaskStatus))
                 .ignore(Select.field(Task::getAssignee))
                 .supply(Select.field(Task::getName), () -> faker.lorem().word())
+                .supply(Select.field(Task::getDescription), () -> faker.lorem().word())
                 .supply(Select.field(Task::getIndex), () -> faker.number().positive())
-                .ignore(Select.field(Task::getTaskStatus))
+                .ignore(Select.field((Task::getLabels)))
                 .toModel();
 
         labelModel = Instancio.of(Label.class)
                 .ignore(Select.field(Label::getId))
-                .supply(Select.field(Label::getName), () -> faker.lorem().characters(3, 1000))
+                .ignore(Select.field(Label::getCreatedAt))
+                .supply(Select.field(Label::getName), () -> faker.lorem().characters(3, 200))
                 .toModel();
     }
 }
