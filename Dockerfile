@@ -6,7 +6,7 @@ WORKDIR /
 
 COPY ./ .
 
-RUN gradle installBootDist
+RUN gradle installDist
 
 EXPOSE 8080
 
