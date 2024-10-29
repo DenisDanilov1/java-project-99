@@ -6,4 +6,4 @@ COPY ./ .
 
 RUN ./gradlew installDist
 
-CMD ./build/install/java-project-99-boot/bin/java-project-99
+CMD build/install/java-project-99-boot/bin/java-project-99
