@@ -2,8 +2,8 @@ FROM gradle:8.7.0-jdk21
 
 WORKDIR /
 
-COPY ./ .
+COPY / .
 
-RUN ./gradlew installDist
+RUN gradle installDist
 
-CMD build/install/java-project-99-boot/bin/java-project-99
+CMD ./build/install/app-boot/bin/app --spring.profiles.active=production
