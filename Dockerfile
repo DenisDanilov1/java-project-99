@@ -6,4 +6,4 @@ COPY / .
 
 RUN gradle installDist
 
-CMD ./build/install/app-boot/bin/app --spring.profiles.active=production
+CMD ./build/install/app/bin/app --spring.profiles.active=production
