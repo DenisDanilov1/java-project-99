@@ -1,15 +1,11 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:devDB
-    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:lso
     username: sa
-    password: password
-  database-platform: org.hibernate.dialect.H2Dialect
+    password:
   h2:
-    console.enabled: true
-    security:
-      headers:
-        frame=false:
+    console:
+      enabled: true
 debug: true
 logging:
   level:

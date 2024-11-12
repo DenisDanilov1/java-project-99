@@ -1,8 +1,13 @@
+logging:
+  level:
+    root: WARN
+    org:
+      springframework:
+        security: trace
 spring:
   application:
     name: app
   jpa:
-    generate-ddl: true
     show-sql: true
     open-in-view: false
     hibernate:
@@ -11,12 +16,12 @@ spring:
     ansi:
       enabled: always
   profiles:
-    active: development
+    default: development
 
 rsa:
   private-key: classpath:certs/private.pem
   public-key: classpath:certs/public.pem
 
 sentry:
-  dsn: https://18a2690568a5fa5c0cfa4fd7bcc56b15@o4507950404534272.ingest.de.sentry.io/4507950411415632
+  dsn: https://a8b95643d43c083b1f2dad32557065bc@o4508245202567168.ingest.de.sentry.io/4508245244772432
   sentry.traces-sample-rate: 1.0
