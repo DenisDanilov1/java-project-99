@@ -1,27 +1,21 @@
-logging:
-  level:
-    root: WARN
-    org:
-      springframework:
-        security: trace
+server:
+  port: 8080
+rsa:
+  private-key: classpath:certs/private.pem
+  public-key: classpath:certs/public.pem
 spring:
   application:
     name: app
   jpa:
     show-sql: true
-    open-in-view: false
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
+      generate-ddl: true
   output:
     ansi:
       enabled: always
   profiles:
-    default: development
-
-rsa:
-  private-key: classpath:certs/private.pem
-  public-key: classpath:certs/public.pem
-
+    default: dev
 sentry:
-  dsn: https://a8b95643d43c083b1f2dad32557065bc@o4508245202567168.ingest.de.sentry.io/4508245244772432
-  sentry.traces-sample-rate: 1.0
+  dsn: https://ee1710bda5636b030347e09ba02c73b6@o4507843071770624.ingest.us.sentry.io/4507843074981888
+  traces-sample-rate: 1.0
