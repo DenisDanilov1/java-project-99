@@ -7,27 +7,4 @@
 ___
 *Task Manager* – a task management system similar to http://www.redmine.org/. It allows you to set tasks, assign performers and change their statuses. Registration and authentication are required to work with the system.
 
-Deployed application: [Task Manager](https://java-project-99-lsfb.onrender.com ) Use: login - <span style="color:blue">*hexlet@example.com *</span> and password - <span style="color:blue">*qwerty*</span> for authorization.
-
-### **Local installation and launch**
-___
-Installation:
-
-```
-make install
-```  
-
-Launch:  
-
-```
-make run
-```  
-
-After installation, the application is available at: http://localhost:8080/
-
-### **Documentation**
-___
-
-After downloading the application, the documentation is available at the following links:
-* http://localhost:8080/swagger-ui/index.html
-* http://localhost:8080/v3/api-docs
+Deployed application: [Task Manager]((https://java-project-99-aas4.onrender.com))
