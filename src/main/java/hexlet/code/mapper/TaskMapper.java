@@ -17,7 +17,9 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -76,9 +78,9 @@ public abstract class TaskMapper {
     }
 
     public Set<Label> longToLabel(Set<Long> taskLabelIds) {
-        return taskLabelIds.stream()
-                .map(id -> labelRepository.findById(id).orElseThrow())
-                .collect(Collectors.toSet());
+        List<Long> idList = new ArrayList<>(taskLabelIds);
+        List<Label> labels = labelRepository.findAllById(idList);
+        return new HashSet<>(labels);
     }
 
     public TaskStatus toTaskStatus(String slug) {

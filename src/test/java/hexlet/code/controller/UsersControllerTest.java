@@ -143,7 +143,8 @@ public class UsersControllerTest {
         mockMvc.perform(request)
                 .andExpect(status().isOk());
 
-        var user = userRepository.findById(testUser.getId()).get();
+        var user = userRepository.findById(testUser.getId())
+                .orElseThrow(() -> new IllegalArgumentException("User not found!"));
         assertThat(user.getFirstName()).isEqualTo(("Denis"));
     }
 
