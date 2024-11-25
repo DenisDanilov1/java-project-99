@@ -86,7 +86,6 @@ public class TasksControllerTest {
 
     @BeforeEach
     public void setUp() {
-
         mockMvc = MockMvcBuilders.webAppContextSetup(wac)
                 .defaultResponseCharacterEncoding(StandardCharsets.UTF_8)
                 .apply(springSecurity())
@@ -113,9 +112,9 @@ public class TasksControllerTest {
     @AfterEach
     public void clean() {
         taskRepository.deleteAll();
-        //taskStatusRepository.deleteAll();
-        labelRepository.deleteAll();
         userRepository.deleteAll();
+        labelRepository.deleteAll();
+        taskStatusRepository.deleteAll();
     }
 
     @Test
@@ -161,10 +160,9 @@ public class TasksControllerTest {
 
     @Test
     public void testCreate() throws Exception {
-        var taskStatus = taskStatusRepository.findBySlug("draft").get();
         var data = new TaskCreateDTO();
         data.setTitle("New Task");
-        data.setSlug(taskStatus.getSlug());
+        data.setSlug(testTaskStatus.getSlug());
 
         var request = post("/api/tasks")
                 .with(token)
