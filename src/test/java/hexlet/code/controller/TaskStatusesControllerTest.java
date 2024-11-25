@@ -4,9 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.dto.taskStatus.TaskStatusCreateDTO;
 import hexlet.code.dto.taskStatus.TaskStatusUpdateDTO;
 import hexlet.code.model.TaskStatus;
+import hexlet.code.repository.LabelRepository;
+import hexlet.code.repository.TaskRepository;
 import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.controller.util.ModelGenerator;
+import hexlet.code.repository.UserRepository;
 import org.instancio.Instancio;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -41,7 +45,16 @@ class TaskStatusControllerTest {
     private WebApplicationContext wac;
 
     @Autowired
-    private TaskStatusRepository repository;
+    private TaskRepository taskRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private LabelRepository labelRepository;
+
+    @Autowired
+    private TaskStatusRepository taskStatusRepository;
 
     @Autowired
     private ModelGenerator modelGenerator;
@@ -64,9 +77,16 @@ class TaskStatusControllerTest {
 
         testTaskStatus = Instancio.of(modelGenerator.getTaskStatusModel()).create();
 
-        repository.save(testTaskStatus);
+        taskStatusRepository.save(testTaskStatus);
     }
 
+    @AfterEach
+    public void clean() {
+        taskRepository.deleteAll();
+        taskStatusRepository.deleteAll();
+        labelRepository.deleteAll();
+        userRepository.deleteAll();
+    }
     @Test
     public void testGetAll() throws Exception {
         mockMvc.perform(get("/api/task_statuses").with(token))
@@ -90,7 +110,7 @@ class TaskStatusControllerTest {
 
         mockMvc.perform(request).andExpect(status().isCreated());
 
-        var taskStatus = repository.findBySlug(data.getSlug()).get();
+        var taskStatus = taskStatusRepository.findBySlug(data.getSlug()).get();
 
         assertNotNull(taskStatus);
         assertThat(taskStatus.getName()).isEqualTo(data.getName());
@@ -109,7 +129,7 @@ class TaskStatusControllerTest {
 
         mockMvc.perform(request).andExpect(status().isOk());
 
-        var updatedTask = repository.findById(testTaskStatus.getId()).get();
+        var updatedTask = taskStatusRepository.findById(testTaskStatus.getId()).get();
 
         assertNotNull(updatedTask);
         assertThat(updatedTask.getName()).isEqualTo(updatedData.getName().get());

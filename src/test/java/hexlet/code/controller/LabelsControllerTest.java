@@ -8,7 +8,11 @@ import hexlet.code.dto.label.LabelUpdateDTO;
 import hexlet.code.model.Label;
 import hexlet.code.repository.LabelRepository;
 import hexlet.code.controller.util.ModelGenerator;
+import hexlet.code.repository.TaskRepository;
+import hexlet.code.repository.TaskStatusRepository;
+import hexlet.code.repository.UserRepository;
 import org.instancio.Instancio;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -48,7 +52,16 @@ class LabelControllerTest {
     private WebApplicationContext wac;
 
     @Autowired
+    private TaskRepository taskRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private LabelRepository labelRepository;
+
+    @Autowired
+    private TaskStatusRepository taskStatusRepository;
 
     @Autowired
     private ModelGenerator modelGenerator;
@@ -74,6 +87,14 @@ class LabelControllerTest {
 
         labelRepository.save(testLabel);
 
+    }
+
+    @AfterEach
+    public void clean() {
+        taskRepository.deleteAll();
+        taskStatusRepository.deleteAll();
+        labelRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @Test

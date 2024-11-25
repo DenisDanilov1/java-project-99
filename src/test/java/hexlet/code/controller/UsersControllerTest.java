@@ -7,6 +7,9 @@ import hexlet.code.dto.user.UserCreateDTO;
 import hexlet.code.dto.user.UserDTO;
 import hexlet.code.mapper.UserMapper;
 import hexlet.code.model.User;
+import hexlet.code.repository.LabelRepository;
+import hexlet.code.repository.TaskRepository;
+import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.repository.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.instancio.Instancio;
@@ -48,7 +51,16 @@ public class UsersControllerTest {
     private WebApplicationContext wac;
 
     @Autowired
+    private TaskRepository taskRepository;
+
+    @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private LabelRepository labelRepository;
+
+    @Autowired
+    private TaskStatusRepository taskStatusRepository;
 
     @Autowired
     private UserMapper userMapper;
@@ -79,6 +91,9 @@ public class UsersControllerTest {
 
     @AfterEach
     public void clean() {
+        taskRepository.deleteAll();
+        taskStatusRepository.deleteAll();
+        labelRepository.deleteAll();
         userRepository.deleteAll();
     }
 
