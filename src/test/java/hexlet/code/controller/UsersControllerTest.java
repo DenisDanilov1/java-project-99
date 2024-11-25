@@ -77,6 +77,11 @@ public class UsersControllerTest {
         userRepository.save(testUser);
     }
 
+    @AfterEach
+    public void clean() {
+        userRepository.deleteAll();
+    }
+
     @Test
     public void testIndex() throws Exception {
 
@@ -156,10 +161,5 @@ public class UsersControllerTest {
         mockMvc.perform(request)
                 .andExpect(status().isNoContent());
         assertThat(userRepository.existsById(testUser.getId())).isEqualTo(false);
-    }
-
-    @AfterEach
-    public void clean() {
-        userRepository.deleteAll();
     }
 }
