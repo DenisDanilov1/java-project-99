@@ -6,9 +6,12 @@ import hexlet.code.dto.label.LabelUpdateDTO;
 import hexlet.code.model.Label;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
-import org.mapstruct.MappingTarget;
+
+
+import java.util.List;
 
 @Mapper(
         uses = {JsonNullableMapper.class, ReferenceMapper.class},
@@ -18,11 +21,13 @@ import org.mapstruct.MappingTarget;
 )
 public abstract class LabelMapper {
 
-    public abstract Label map(LabelDTO dto);
+    public abstract List<LabelDTO> map(List<Label> labels);
 
     public abstract Label map(LabelCreateDTO labelCreateDTO);
 
     public abstract LabelDTO map(Label label);
 
     public abstract void update(LabelUpdateDTO labelUpdateDTO, @MappingTarget Label label);
+
+    public abstract Label map(LabelDTO labelDTO);
 }

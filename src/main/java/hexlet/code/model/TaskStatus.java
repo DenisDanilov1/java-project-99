@@ -26,6 +26,7 @@ import java.time.LocalDate;
 public class TaskStatus implements BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @NotNull
