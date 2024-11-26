@@ -5,12 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.dto.label.LabelCreateDTO;
 import hexlet.code.dto.label.LabelDTO;
 import hexlet.code.dto.label.LabelUpdateDTO;
+import hexlet.code.mapper.LabelMapper;
 import hexlet.code.model.Label;
 import hexlet.code.repository.LabelRepository;
 import hexlet.code.controller.util.ModelGenerator;
 import hexlet.code.repository.TaskRepository;
 import hexlet.code.repository.TaskStatusRepository;
 import hexlet.code.repository.UserRepository;
+import org.assertj.core.api.Assertions;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +27,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -69,10 +70,11 @@ class LabelControllerTest {
     @Autowired
     private ObjectMapper om;
 
+    private LabelMapper labelMapper;
+
     private Label testLabel;
 
     private SecurityMockMvcRequestPostProcessors.JwtRequestPostProcessor token;
-
 
 
     @BeforeEach
@@ -99,13 +101,21 @@ class LabelControllerTest {
 
     @Test
     public void testGetAll() throws Exception {
-        var count = labelRepository.count();
-        var result = mockMvc.perform(get("/api/labels").with(token))
-                .andExpect(status().isOk()).andReturn().getResponse();
-        var body = result.getContentAsString();
-        assertThatJson(body).isArray();
-        var labelsDTO = om.readValue(body, new TypeReference<List<LabelDTO>>() { });
-        assertThat(labelsDTO.size()).isEqualTo((count));
+        var response = mockMvc.perform(get("/api/labels").with(token))
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse();
+
+        var body = response.getContentAsString();
+
+        List<LabelDTO> labelDTOS = om.readValue(body, new TypeReference<>() { });
+
+        var actual = labelDTOS.stream()
+                .map(labelMapper::map)
+                .toList();
+        var excepted = labelRepository.findAll();
+
+        Assertions.assertThat(actual).containsExactlyInAnyOrderElementsOf(excepted);
     }
 
     @Test

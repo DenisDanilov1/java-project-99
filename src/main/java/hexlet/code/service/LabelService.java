@@ -19,7 +19,9 @@ public class LabelService {
 
     public List<LabelDTO> getAll() {
         var labels = repository.findAll();
-        return labelMapper.map(labels);
+        return labels.stream()
+                .map(labelMapper::map)
+                .toList();
     }
 
     public LabelDTO getById(Long id) {

@@ -13,6 +13,13 @@
 
      @ExceptionHandler(ResourceNotFoundException.class)
      public ResponseEntity<String> handleResourceNotFoundException(ResourceNotFoundException ex) {
-         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+         return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                 .body("An error has occurred: " + ex.getMessage());
+     }
+
+     @ExceptionHandler(Exception.class)
+     public ResponseEntity<String> handleException(Exception ex) {
+         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                 .body("An error has occurred: " + ex.getMessage());
      }
  }
